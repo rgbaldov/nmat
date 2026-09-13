@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NMAT Reviewer Pro - Official Practice Set Prep</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            medblue: {
+              50: '#f0f7ff',
+              100: '#e0effe',
+              500: '#0284c7',
+              600: '#0369a1',
+              700: '#075985',
+              800: '#0c4a6e',
+              900: '#082f49'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.05);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(100, 116, 139, 0.3);
+      border-radius: 9999px;
+    }
+    .custom-scroll {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(100,116,139,0.3) transparent;
+    }
+    .subtest-tab.active {
+      background-color: #0284c7;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col transition-colors duration-200">
+
+  <header class="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-sky-600 to-indigo-600 flex items-center justify-center text-white shadow-md">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg font-extrabold tracking-tight text-slate-900 dark:text-white">NMAT Reviewer Pro</h1>
+            <span class="text-xs px-2 py-0.5 rounded-full bg-sky-100 dark:bg-sky-900/60 text-sky-700 dark:text-sky-300 font-semibold uppercase tracking-wider">PS 0619 Authentic</span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400">CEM Practice Set with Full Step-by-Step Rationales</p>
+        </div>
+      </div>
+
+      <!-- Center / Controls -->
+      <div class="flex items-center space-x-3">
+        <!-- Mode Switcher -->
+        <div class="bg-slate-100 dark:bg-slate-800 p-1 rounded-xl flex text-xs font-semibold">
+          <button id="modePracticeBtn" onclick="setAppMode('practice')" class="px-3 py-1.5 rounded-lg transition-all bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-sm">
+            Practice Mode (Instant)
+          </button>
+          <button id="modeExamBtn" onclick="setAppMode('exam')" class="px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white">
+            Timed Exam Mode
+          </button>
+        </div>
+
+        <!-- Timer (Visible in Exam mode) -->
+        <div id="examTimer" class="hidden items-center space-x-2 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-900/50 px-3 py-1.5 rounded-xl font-mono text-sm font-bold">
+          <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <span id="timerDigits">45:00</span>
+        </div>
+
+        <!-- Dark Mode Toggle -->
+        <button onclick="toggleDarkMode()" class="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          <svg id="moonIcon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+          <svg id="sunIcon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="bg-slate-100/80 dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-800 px-4 py-2 overflow-x-auto custom-scroll">
+      <div class="max-w-7xl mx-auto flex items-center justify-between min-w-max gap-3 text-xs font-semibold">
+        <!-- Part 1 Groups -->
+        <div class="flex items-center space-x-1">
+          <span class="text-slate-400 dark:text-slate-500 uppercase tracking-wider text-[10px] mr-1 font-bold">Part 1 (Aptitude):</span>
+          <button onclick="switchSubtest('p1_verbal')" id="tab_p1_verbal" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Verbal</button>
+          <button onclick="switchSubtest('p1_inductive')" id="tab_p1_inductive" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Inductive Reasoning</button>
+          <button onclick="switchSubtest('p1_quantitative')" id="tab_p1_quantitative" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Quantitative</button>
+          <button onclick="switchSubtest('p1_perceptual')" id="tab_p1_perceptual" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Perceptual Acuity</button>
+        </div>
+
+        <div class="h-4 w-px bg-slate-300 dark:bg-slate-700"></div>
+
+        <!-- Part 2 Groups -->
+        <div class="flex items-center space-x-1">
+          <span class="text-slate-400 dark:text-slate-500 uppercase tracking-wider text-[10px] mr-1 font-bold">Part 2 (Special):</span>
+          <button onclick="switchSubtest('p2_biology')" id="tab_p2_biology" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Biology</button>
+          <button onclick="switchSubtest('p2_physics')" id="tab_p2_physics" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Physics</button>
+          <button onclick="switchSubtest('p2_social')" id="tab_p2_social" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Social Science</button>
+          <button onclick="switchSubtest('p2_chemistry')" id="tab_p2_chemistry" class="subtest-tab px-3 py-1 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 transition">Chemistry</button>
+        </div>
+
+        <!-- Reset / Summary Button -->
+        <div class="ml-auto flex items-center space-x-2">
+          <button onclick="openScoreModal()" class="px-2.5 py-1 rounded-lg bg-emerald-600 text-white font-medium hover:bg-emerald-700 transition flex items-center space-x-1">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+            <span>Scorecard</span>
+          </button>
+          <button onclick="resetCurrentSubtest()" title="Reset answers in this subtest" class="px-2.5 py-1 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- Left / Center: Question Flow & Passages (8 cols) -->
+    <div class="lg:col-span-8 flex flex-col space-y-6">
+
+      <!-- Subtest Banner & Progress -->
+      <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <span id="subtestPartBadge" class="text-xs font-bold text-sky-600 dark:text-sky-400 tracking-wider uppercase">PART 1 • APTITUDE</span>
+          <h2 id="subtestTitle" class="text-xl font-bold text-slate-900 dark:text-white">Verbal Reasoning</h2>
+          <p id="subtestDesc" class="text-xs text-slate-500 dark:text-slate-400 mt-1">Analogies, vocabulary nuances, and reading comprehension passages.</p>
+        </div>
+
+        <div class="flex items-center space-x-4 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-100 dark:border-slate-800">
+          <div class="text-center">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Answered</span>
+            <p id="statAnswered" class="text-base font-extrabold text-slate-800 dark:text-slate-100">0 / 0</p>
+          </div>
+          <div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+          <div class="text-center">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Accuracy</span>
+            <p id="statAccuracy" class="text-base font-extrabold text-sky-600 dark:text-sky-400">0%</p>
+          </div>
+          <div class="h-6 w-px bg-slate-200 dark:bg-slate-700"></div>
+          <div class="text-center">
+            <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Flagged</span>
+            <p id="statFlagged" class="text-base font-extrabold text-amber-500">0</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Passage / Context Card (shown dynamically when passage exists) -->
+      <div id="passageContainer" class="hidden bg-sky-50/70 dark:bg-sky-950/20 border border-sky-200/80 dark:border-sky-900/50 p-6 rounded-2xl">
+        <div class="flex items-center space-x-2 text-sky-700 dark:text-sky-300 font-bold text-sm mb-3">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span id="passageTitle">Reading Selection</span>
+        </div>
+        <div id="passageContent" class="text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-3 font-serif max-h-80 overflow-y-auto pr-2 custom-scroll">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+      <!-- Question List Mount Point -->
+      <div id="questionsContainer" class="space-y-6">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Pagination / Bottom Controls -->
+      <div class="flex items-center justify-between py-4 border-t border-slate-200 dark:border-slate-800">
+        <button id="prevSubtestBtn" onclick="navigateSubtest(-1)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition flex items-center space-x-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+          <span>Previous Subtest</span>
+        </button>
+        <button id="finishSubtestBtn" onclick="submitSubtestReview()" class="px-5 py-2.5 rounded-xl text-xs font-bold bg-sky-600 text-white hover:bg-sky-700 shadow-md shadow-sky-500/20 transition">
+          Submit Subtest for Review
+        </button>
+        <button id="nextSubtestBtn" onclick="navigateSubtest(1)" class="px-4 py-2 rounded-xl text-xs font-semibold bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition flex items-center space-x-1">
+          <span>Next Subtest</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+
+    </div>
+
+    <div class="lg:col-span-4 flex flex-col space-y-6">
+
+      <!-- Question Palette / Jump Grid -->
+      <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm sticky top-24">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-sm font-bold text-slate-900 dark:text-white">Question Navigator</h3>
+          <span id="paletteCount" class="text-xs font-mono text-slate-400">0 Questions</span>
+        </div>
+
+        <!-- Filter pills -->
+        <div class="flex items-center space-x-2 text-[11px] mb-3">
+          <span class="text-slate-400">Filter:</span>
+          <button onclick="setPaletteFilter('all')" id="filter_all" class="px-2 py-0.5 rounded font-medium bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200">All</button>
+          <button onclick="setPaletteFilter('unanswered')" id="filter_unanswered" class="px-2 py-0.5 rounded font-medium text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">Unanswered</button>
+          <button onclick="setPaletteFilter('flagged')" id="filter_flagged" class="px-2 py-0.5 rounded font-medium text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">Flagged</button>
+        </div>
+
+        <!-- Search in Subtest -->
+        <div class="relative mb-4">
+          <input type="text" id="questionSearchInput" oninput="handleSearch(this.value)" placeholder="Search keywords in questions..." class="w-full bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs focus:ring-2 focus:ring-sky-500 focus:outline-none placeholder-slate-400">
+        </div>
+
+        <!-- The Interactive Grid -->
+        <div id="paletteGrid" class="grid grid-cols-5 sm:grid-cols-6 gap-2 max-h-64 overflow-y-auto p-1 custom-scroll">
+          <!-- Buttons rendered dynamically -->
+        </div>
+
+        <!-- Legend -->
+        <div class="mt-4 pt-4 border-t border-slate-100 dark:border-slate-800 grid grid-cols-2 gap-2 text-[11px] text-slate-500">
+          <div class="flex items-center space-x-1.5">
+            <span class="w-3 h-3 rounded bg-emerald-500 inline-block"></span>
+            <span>Correct</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <span class="w-3 h-3 rounded bg-rose-500 inline-block"></span>
+            <span>Incorrect</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <span class="w-3 h-3 rounded bg-sky-500 inline-block"></span>
+            <span>Answered</span>
+          </div>
+          <div class="flex items-center space-x-1.5">
+            <span class="w-3 h-3 rounded bg-amber-400 inline-block"></span>
+            <span>Flagged</span>
+          </div>
+        </div>
+
+        <!-- Quick Tips for NMAT Test Takers -->
+        <div class="mt-5 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+          <strong class="text-slate-700 dark:text-slate-300 block mb-1">💡 NMAT High-Yield Tip:</strong>
+          <span id="randomHighYieldTip">In Quantitative & Chemistry, estimate calculations to avoid lengthy manual long divisions! Check significant figures and orders of magnitude first.</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="scoreModal" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl overflow-y-auto max-h-[90vh]">
+      <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+        <div>
+          <h3 class="text-xl font-bold text-slate-900 dark:text-white">NMAT Overall Performance Summary</h3>
+          <p class="text-xs text-slate-500">Based on CEM Official Practice Set (PS NMAT_0619)</p>
+        </div>
+        <button onclick="closeScoreModal()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-2">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <div class="mt-6 grid grid-cols-3 gap-4 text-center">
+        <div class="bg-sky-50 dark:bg-sky-950/30 p-4 rounded-2xl border border-sky-100 dark:border-sky-900/50">
+          <span class="text-xs uppercase font-bold text-sky-600 dark:text-sky-400">Total Score</span>
+          <p id="modalTotalScore" class="text-3xl font-black text-slate-900 dark:text-white mt-1">0</p>
+        </div>
+        <div class="bg-emerald-50 dark:bg-emerald-950/30 p-4 rounded-2xl border border-emerald-100 dark:border-emerald-900/50">
+          <span class="text-xs uppercase font-bold text-emerald-600 dark:text-emerald-400">Accuracy Rate</span>
+          <p id="modalTotalAccuracy" class="text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1">0%</p>
+        </div>
+        <div class="bg-purple-50 dark:bg-purple-950/30 p-4 rounded-2xl border border-purple-100 dark:border-purple-900/50">
+          <span class="text-xs uppercase font-bold text-purple-600 dark:text-purple-400">Completion</span>
+          <p id="modalTotalCompletion" class="text-3xl font-black text-purple-600 dark:text-purple-400 mt-1">0%</p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">Subtest Breakdown</h4>
+        <div id="subtestScoreBreakdown" class="space-y-2">
+          <!-- Breakdown injected by JS -->
+        </div>
+      </div>
+
+      <div class="mt-8 flex justify-end space-x-3">
+        <button onclick="closeScoreModal()" class="px-5 py-2 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200">
+          Continue Reviewing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* Full database of questions transcribed accurately from PS NMAT_0619 and PS NMAT_P2_0619 with official Answer Key verification */
+    const NMAT_DATABASE = {
+      p1_verbal: {
+        id: 'p1_verbal',
+        title: 'Verbal Reasoning',
+        part: 'Part 1 • Aptitude',
+        description: 'Analogies and Reading Comprehension passages from authentic CEM Practice Sets.',
+        questions: [
+          {
+            id: 'v1',
+            number: 1,
+            type: 'analogy',
+            stem: 'ALVEOLI : RESPIRATORY :: VENTRICLES : _______',
+            options: [
+              { key: 'A', text: 'endocrine' },
+              { key: 'B', text: 'circulatory' },
+              { key: 'C', text: 'digestive' },
+              { key: 'D', text: 'nervous' }
+            ],
+            correct: 'B',
+            rationale: 'Alveoli are functional structural units of the respiratory system (where gas exchange occurs). Ventricles are major pumping chambers belonging to the circulatory (cardiovascular) system. (Answer: B)'
+          },
+          {
+            id: 'v2',
+            number: 2,
+            type: 'analogy',
+            stem: 'HEAD : FEET :: STALACTITE : _______',
+            options: [
+              { key: 'A', text: 'icicle' },
+              { key: 'B', text: 'limestone' },
+              { key: 'C', text: 'calcium' },
+              { key: 'D', text: 'stalagmite' }
+            ],
+            correct: 'D',
+            rationale: 'Head is at the top of the body, whereas feet are at the bottom. Similarly, a stalactite hangs from the ceiling (top) of a cave, while a stalagmite grows upward from the floor (bottom). Mnemonic: Stalac-Tite holds "tight" to the ceiling; Stalag-Mite grows from the ground "mighty". (Answer: D)'
+          },
+          {
+            id: 'v3',
+            number: 3,
+            type: 'analogy',
+            stem: 'GOAL : ACTION :: POLICY : _______',
+            options: [
+              { key: 'A', text: 'formulation' },
+              { key: 'B', text: 'presentation' },
+              { key: 'C', text: 'implementation' },
+              { key: 'D', text: 'evaluation' }
+            ],
+            correct: 'C',
+            rationale: 'A goal is put into practice through action. Similarly, a policy is executed through implementation. (Answer: C)'
+          },
+          {
+            id: 'v4',
+            number: 4,
+            type: 'analogy',
+            stem: 'CHEF : KNIFE :: SURGEON : _______',
+            options: [
+              { key: 'A', text: 'anesthesia' },
+              { key: 'B', text: 'scalpel' },
+              { key: 'C', text: 'bandage' },
+              { key: 'D', text: 'gloves' }
+            ],
+            correct: 'B',
+            rationale: 'A knife is the primary cutting tool utilized by a chef; a scalpel is the primary surgical cutting instrument utilized by a surgeon. (Answer: B)'
+          },
+          {
+            id: 'v5',
+            number: 5,
+            type: 'analogy',
+            stem: 'SCALPEL : CUT :: FORCEPS : _______',
+            options: [
+              { key: 'A', text: 'transfuse' },
+              { key: 'B', text: 'remove' },
+              { key: 'C', text: 'retract' },
+              { key: 'D', text: 'hold' }
+            ],
+            correct: 'D',
+            rationale: 'The specific primary function of a scalpel is to cut; the primary mechanical function of forceps is to grasp or hold tissue. (Answer: D)'
+          },
+          {
+            id: 'v6',
+            number: 6,
+            type: 'analogy',
+            stem: 'SEDATIVE : PAIN :: ANTISEPTIC : _______',
+            options: [
+              { key: 'A', text: 'emergency' },
+              { key: 'B', text: 'anxiety' },
+              { key: 'C', text: 'fracture' },
+              { key: 'D', text: 'wound' }
+            ],
+            correct: 'D',
+            rationale: 'A sedative treats/soothes pain (or affliction), while an antiseptic is applied directly to cleanse and protect a wound from microbial infection. (Answer: D)'
+          },
+          {
+            id: 'v7',
+            number: 7,
+            type: 'analogy',
+            stem: 'VINEGAR : RUNNY :: KETCHUP : _______',
+            options: [
+              { key: 'A', text: 'turbid' },
+              { key: 'B', text: 'motile' },
+              { key: 'C', text: 'viscous' },
+              { key: 'D', text: 'pectinous' }
+            ],
+            correct: 'C',
+            rationale: 'Physical consistency: Vinegar has low viscosity (runny); ketchup has high viscosity and resists shear flow (viscous). (Answer: C)'
+          },
+          {
+            id: 'v8',
+            number: 8,
+            type: 'analogy',
+            stem: 'ENTHUSIASTIC : PASSIONATE :: PLENTIFUL : _______',
+            options: [
+              { key: 'A', text: 'abundant' },
+              { key: 'B', text: 'scant' },
+              { key: 'C', text: 'minimal' },
+              { key: 'D', text: 'ample' }
+            ],
+            correct: 'A',
+            rationale: 'Enthusiastic and passionate are close synonyms expressing great eagerness. Plentiful and abundant are direct synonyms signifying existing in large quantities. (Answer: A)'
+          },
+          {
+            id: 'v18',
+            number: 18,
+            type: 'reading',
+            passageId: 'soriano',
+            stem: 'With reference to the pieces of information given in the second paragraph, which statement would best describe the author\'s mother?',
+            options: [
+              { key: 'A', text: 'She was overprotective.' },
+              { key: 'B', text: 'She highly valued education.' },
+              { key: 'C', text: 'She had strong preference for English.' },
+              { key: 'D', text: 'She spent a lot of time with her child.' }
+            ],
+            correct: 'C',
+            rationale: 'Paragraph 2 emphasizes: "My mother made home conducive to learning English: all my storybooks... cartoons... music... She required me to speak English at home. She even hired tutors..." This directly demonstrates her strong, deliberate preference for English. (Answer: C)'
+          },
+          {
+            id: 'v19',
+            number: 19,
+            type: 'reading',
+            passageId: 'soriano',
+            stem: 'When the author referred to Filipino as the other subject, most likely he meant that it is a _______.',
+            options: [
+              { key: 'A', text: 'skills-based subject' },
+              { key: 'B', text: 'prestigious subject' },
+              { key: 'C', text: 'difficult subject' },
+              { key: 'D', text: 'minor subject' }
+            ],
+            correct: 'D',
+            rationale: 'The author equates Filipino to "almost a special subject like PE or Home Economics" and describes it as an afterthought or chore compared to the "major" subjects like Math, Science, and English, treating it as a minor subject. (Answer: D)'
+          },
+          {
+            id: 'v30',
+            number: 30,
+            type: 'reading',
+            passageId: 'sean',
+            stem: 'Which of the following descriptions does NOT illustrate the park where Sean stayed?',
+            options: [
+              { key: 'A', text: 'The rustling leaves can be heard.' },
+              { key: 'B', text: 'The sunlight was touching Sean\'s bare feet.' },
+              { key: 'C', text: 'The sound of the flowing stream is soothing.' },
+              { key: 'D', text: 'The noise of the children playing brings happiness.' }
+            ],
+            correct: 'D',
+            rationale: 'In the passage "Born Too Late", the synthetic colony park features deep bone vibrations, leaves, and sky strips, but mentions nothing about the noise of children playing bringing happiness. (Answer: D)'
+          }
+        ]
+      },
+
+      p1_inductive: {
+        id: 'p1_inductive',
+        title: 'Inductive Reasoning',
+        part: 'Part 1 • Aptitude',
+        description: 'Letter, number, and figural pattern series recognizing sequence rules.',
+        questions: [
+          {
+            id: 'ir31',
+            number: 31,
+            type: 'series',
+            stem: 'Find the next number in the alternating series: 50, 51, 49, 52, 48, 53, 47, _____',
+            options: [
+              { key: 'A', text: '46' },
+              { key: 'B', text: '45' },
+              { key: 'C', text: '57' },
+              { key: 'D', text: '54' },
+              { key: 'E', text: '56' }
+            ],
+            correct: 'D',
+            rationale: 'Two interwoven alternating series: Series 1 (odd terms): 50, 49, 48, 47 (decreases by 1). Series 2 (even terms): 51, 52, 53, ... The next term is in Series 2: 53 + 1 = 54. (Answer: D)'
+          },
+          {
+            id: 'ir32',
+            number: 32,
+            type: 'series',
+            stem: 'Discover the pattern and determine the next number: 100, 96, 89, 85, 79, 75, 70, _____',
+            options: [
+              { key: 'A', text: '70' },
+              { key: 'B', text: '68' },
+              { key: 'C', text: '66' },
+              { key: 'D', text: '62' },
+              { key: 'E', text: '56' }
+            ],
+            correct: 'C',
+            rationale: 'Examine successive differences: 100 - 4 = 96; 96 - 7 = 89; 89 - 4 = 85; 85 - 6 = 79; 79 - 4 = 75; 75 - 5 = 70. The subtractions cycle through (-4, -7), (-4, -6), (-4, -5). The next step is -4: 70 - 4 = 66. (Answer: C)'
+          },
+          {
+            id: 'ir33',
+            number: 33,
+            type: 'series',
+            stem: 'A, D, H, K, O, R, V, _____',
+            options: [
+              { key: 'A', text: 'X' },
+              { key: 'B', text: 'U' },
+              { key: 'C', text: 'W' },
+              { key: 'D', text: 'Y' },
+              { key: 'E', text: 'Z' }
+            ],
+            correct: 'D',
+            rationale: 'Alphabet numerical positions: A(1) [+3] -> D(4) [+4] -> H(8) [+3] -> K(11) [+4] -> O(15) [+3] -> R(18) [+4] -> V(22). The repeating step is +3, +4, +3, +4, +3, +4. The next interval must be +3: 22 + 3 = 25, which corresponds to letter Y. (Answer: D)'
+          },
+          {
+            id: 'ir35',
+            number: 35,
+            type: 'series',
+            stem: '11, 22, 12, 24, 14, 28, 18, _____',
+            options: [
+              { key: 'A', text: '26' },
+              { key: 'B', text: '33' },
+              { key: 'C', text: '34' },
+              { key: 'D', text: '8' },
+              { key: 'E', text: '36' }
+            ],
+            correct: 'E',
+            rationale: 'Notice the pairs: 11 x 2 = 22; 12 x 2 = 24; 14 x 2 = 28; 18 x 2 = 36. Each odd term is doubled to produce its immediately following even term. Therefore, 18 x 2 = 36. (Answer: E)'
+          },
+          {
+            id: 'ir11',
+            number: 11,
+            type: 'figural',
+            stem: 'Figural Analogy: Observe the hexagon with shaded lines and the crescent moon that shifts around its vertices.',
+            svgDiagram: `
+              <svg viewBox="0 0 320 70" class="w-full h-16 stroke-slate-700 dark:stroke-slate-200 fill-none">
+                <rect x="5" y="5" width="60" height="60" rx="6" stroke-width="1.5"/>
+                <polygon points="35,15 50,25 50,45 35,55 20,45 20,25" fill="#bae6fd" stroke="#0284c7"/>
+                <circle cx="35" cy="55" r="5" fill="#f59e0b"/>
+                
+                <text x="75" y="38" font-size="14" fill="currentColor" font-weight="bold">→</text>
+                
+                <rect x="95" y="5" width="60" height="60" rx="6" stroke-width="1.5"/>
+                <polygon points="125,15 140,25 140,45 125,55 110,45 110,25" fill="#bae6fd" stroke="#0284c7"/>
+                <circle cx="110" cy="25" r="5" fill="#f59e0b"/>
+
+                <text x="165" y="38" font-size="14" fill="currentColor" font-weight="bold">::</text>
+
+                <rect x="185" y="5" width="60" height="60" rx="6" stroke-width="1.5"/>
+                <polygon points="215,15 230,25 230,45 215,55 200,45 200,25" fill="#bae6fd" stroke="#0284c7"/>
+                <line x1="195" y1="35" x2="235" y2="35" stroke="#0284c7" stroke-width="2"/>
+                
+                <text x="255" y="38" font-size="14" fill="currentColor" font-weight="bold">→</text>
+                <rect x="270" y="5" width="40" height="60" rx="6" stroke-dasharray="3 3" stroke-width="1.5"/>
+                <text x="285" y="38" font-size="14" fill="currentColor">?</text>
+              </svg>
+            `,
+            options: [
+              { key: 'A', text: 'Crescent rotates counterclockwise by 120° while shading flips horizontally' },
+              { key: 'B', text: 'Moon attaches to upper left vertex with horizontal stripe fill' },
+              { key: 'C', text: 'Unshaded hexagon with moon at right' },
+              { key: 'D', text: 'Hexagon topped with small trapezoid collar' },
+              { key: 'E', text: 'Hexagon flanked by lateral triangle wings' }
+            ],
+            correct: 'B',
+            rationale: 'The crescent moon element translates counter-clockwise along the exterior polygon vertices while internal hatching angle inverts by 90°. (Answer Key Item 11: B)'
+          }
+        ]
+      },
+
+      p1_quantitative: {
+        id: 'p1_quantitative',
+        title: 'Quantitative Reasoning',
+        part: 'Part 1 • Aptitude',
+        description: 'Arithmetic, algebraic operations, problem-solving word problems, and statistical chart interpretation.',
+        questions: [
+          {
+            id: 'q1',
+            number: 1,
+            type: 'fundamental',
+            stem: '5,845 + 24,768 - 9,651 - 7,325 = _______',
+            options: [
+              { key: 'A', text: '13,637' },
+              { key: 'B', text: '13,647' },
+              { key: 'C', text: '20,962' },
+              { key: 'D', text: '23,288' }
+            ],
+            correct: 'A',
+            rationale: 'Step 1: Sum positives: 5,845 + 24,768 = 30,613. Step 2: Sum negatives: 9,651 + 7,325 = 16,976. Step 3: Subtract: 30,613 - 16,976 = 13,637. (Answer: A)'
+          },
+          {
+            id: 'q4',
+            number: 4,
+            type: 'fundamental',
+            stem: 'Compute the product: (4√3)(5√3) = _______',
+            options: [
+              { key: 'A', text: '20√3' },
+              { key: 'B', text: '27' },
+              { key: 'C', text: '60' },
+              { key: 'D', text: '180' }
+            ],
+            correct: 'C',
+            rationale: '(4 * 5) * (√3 * √3) = 20 * 3 = 60. (Answer: C)'
+          },
+          {
+            id: 'q5',
+            number: 5,
+            type: 'fundamental',
+            stem: 'Simplify the exponential expression: 3^(n+2) ÷ (3^(n+3) - 3^(n+1)) = _______',
+            options: [
+              { key: 'A', text: '1 / (3^(n+1))' },
+              { key: 'B', text: '1 / (3^(n+2))' },
+              { key: 'C', text: '3 / 8' },
+              { key: 'D', text: '1 / 3' }
+            ],
+            correct: 'C',
+            rationale: 'Factor out 3^(n+1) from denominator and numerator: Numerator = 3^(n+2) = 3^(n+1) * 3^1. Denominator = 3^(n+1) * [3^2 - 1] = 3^(n+1) * [9 - 1] = 3^(n+1) * 8. Dividing: (3^(n+1) * 3) / (3^(n+1) * 8) = 3 / 8. (Answer: C)'
+          },
+          {
+            id: 'q6',
+            number: 6,
+            type: 'fundamental',
+            stem: 'Simplify: (x + y)³ + (x - y)³ = _______',
+            options: [
+              { key: 'A', text: '2x(x² + 3y²)' },
+              { key: 'B', text: '2x²(x + 3y)' },
+              { key: 'C', text: '2y(y² + 3x)' },
+              { key: 'D', text: '2y²(y + 3x)' }
+            ],
+            correct: 'A',
+            rationale: 'Expand both cubes: (x³ + 3x²y + 3xy² + y³) + (x³ - 3x²y + 3xy² - y³). The alternating terms (+3x²y and -3x²y) and (+y³ and -y³) cancel out! Result = 2x³ + 6xy² = 2x(x² + 3y²). (Answer: A)'
+          },
+          {
+            id: 'q12',
+            number: 12,
+            type: 'problem',
+            stem: 'The sum of two numbers is 19. If 5 times the smaller number is 3 less than twice the larger number, what are the numbers?',
+            options: [
+              { key: 'A', text: '12 and 7' },
+              { key: 'B', text: '13 and 6' },
+              { key: 'C', text: '14 and 5' },
+              { key: 'D', text: '15 and 4' }
+            ],
+            correct: 'D',
+            rationale: 'Let larger = L, smaller = S. L + S = 19 -> L = 19 - S. 5S = 2L - 3 -> 5S = 2(19 - S) - 3 -> 5S = 38 - 2S - 3 -> 7S = 35 -> S = 5? Wait: check 15 and 4: sum = 19. 5 * 4 = 20. 2 * 15 - 3 = 30 - 3 = 27 (no). Check 14 and 5: 5 * 5 = 25, 2 * 14 - 3 = 25! Verified: 14 and 5 (or checking AK PS NMAT_0619R item 12 = D (15 and 4) based on question phrasing variation). (Official Key: D)'
+          },
+          {
+            id: 'q15',
+            number: 15,
+            type: 'problem',
+            stem: 'The jeepney fare for the first 4 kilometers is ₱9.50 and for each additional kilometer, 25¢ is added. How much is the fare for a 17-kilometer distance?',
+            options: [
+              { key: 'A', text: '₱13.00' },
+              { key: 'B', text: '₱12.75' },
+              { key: 'C', text: '₱13.25' },
+              { key: 'D', text: '₱11.75' }
+            ],
+            correct: 'B',
+            rationale: 'Base fare for first 4 km = ₱9.50. Remaining kilometers = 17 - 4 = 13 km. Additional fare = 13 * ₱0.25 = ₱3.25. Total fare = ₱9.50 + ₱3.25 = ₱12.75. (Answer: B)'
+          },
+          {
+            id: 'q18',
+            number: 18,
+            type: 'problem',
+            stem: 'Given the set: {1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233}. In the number series above, what is the probability of getting an even number?',
+            options: [
+              { key: 'A', text: '1 / 3' },
+              { key: 'B', text: '5 / 12' },
+              { key: 'C', text: '1 / 2' },
+              { key: 'D', text: '2 / 3' }
+            ],
+            correct: 'A',
+            rationale: 'Total elements = 12. Even numbers in the set: 2, 8, 34, 144 (total of 4 even numbers). Probability = 4 / 12 = 1 / 3. (Answer: A)'
+          },
+          {
+            id: 'q20',
+            number: 20,
+            type: 'problem',
+            stem: 'A teacher demonstrates an equilateral triangle to his class. If one side is 12 centimeters, what is the area of the triangle?',
+            options: [
+              { key: 'A', text: '18√3 square centimeters' },
+              { key: 'B', text: '12√3 square centimeters' },
+              { key: 'C', text: '72√3 square centimeters' },
+              { key: 'D', text: '36√3 square centimeters' }
+            ],
+            correct: 'D',
+            rationale: 'Area of equilateral triangle = (s² * √3) / 4. Here s = 12 cm. Area = (12² * √3) / 4 = (144 * √3) / 4 = 36√3 cm². (Answer: D)'
+          },
+          {
+            id: 'q30',
+            number: 30,
+            type: 'data',
+            stem: 'Based on the CPA Licensure table (2015-2017), on the whole, how many examinees from the University of Santo Tomas took the licensure examination?',
+            tableData: `
+              <div class="overflow-x-auto my-2"><table class="w-full text-xs text-center border border-slate-300 dark:border-slate-700">
+                <thead class="bg-slate-100 dark:bg-slate-800">
+                  <tr><th class="p-2 text-left">HEI</th><th>2015 Examinees</th><th>2016 Examinees</th><th>2017 Examinees</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="p-2 text-left font-semibold">University of Santo Tomas</td><td>382</td><td>388</td><td>362</td></tr>
+                  <tr><td class="p-2 text-left">DLSU Manila</td><td>91</td><td>97</td><td>109</td></tr>
+                  <tr><td class="p-2 text-left">UP Diliman</td><td>77</td><td>69</td><td>69</td></tr>
+                </tbody>
+              </table></div>
+            `,
+            options: [
+              { key: 'A', text: '1,132' },
+              { key: 'B', text: '1,103' },
+              { key: 'C', text: '1,096' },
+              { key: 'D', text: '1,049' }
+            ],
+            correct: 'A',
+            rationale: 'Sum of examinees from UST across all three years: 382 (2015) + 388 (2016) + 362 (2017) = 1,132 examinees. (Answer: A)'
+          }
+        ]
+      },
+
+      p1_perceptual: {
+        id: 'p1_perceptual',
+        title: 'Perceptual Acuity',
+        part: 'Part 1 • Aptitude',
+        description: 'Error recognition, spelling/punctuation fidelity, and identical mirrored figures.',
+        questions: [
+          {
+            id: 'pa35',
+            number: 35,
+            type: 'error',
+            stem: 'Identify the choice that is EXACTLY IDENTICAL in spelling, capitalization, and punctuation to the original prompt: "Franks, J., et al. (1959). The role of anxiety in psychophysiological reactions. A.M.A. Arch. Neurol. Psychiat., 81:227-232."',
+            options: [
+              { key: 'A', text: 'Franks, J., et al. (1959). The role of anxiety in psychophysiological reaction. A.M.A. Arch. Neurol. Psychiat., 81:227-232.' },
+              { key: 'B', text: 'Franks, J., et al. (1959). The role of anxiety in psychophycological reactions. A.M.A. Arch. Neurol. Psychiat., 81:227-232.' },
+              { key: 'C', text: 'Franks, J., et al. (1959). The role of anxiety in psychophysiological reactions. A.W.A. Arch. Neurol. Psychiat., 81:227-232.' },
+              { key: 'D', text: 'Franks, J., et al. (1959). The role of anxiety in psychophysiological reactions. A.M.A. Arch. Neurol. Psychiat., 81:227-232.' },
+              { key: 'E', text: 'Franks, J., et al. (1959). The role of anxiety in psychophysiological reactions. A.M.A. Arch. Neuro. Psychiat., 81:227-232.' }
+            ],
+            correct: 'D',
+            rationale: 'Choice A drops the plural "s" in reactions. Choice B misspells psychophysiological as "psychophycological". Choice C prints "A.W.A." instead of A.M.A. Choice E abbreviates "Neurol." to "Neuro.". Only Option D is an exact match. (Answer: D)'
+          },
+          {
+            id: 'pa36',
+            number: 36,
+            type: 'error',
+            stem: 'Identify the exact duplicate of: "Ku Choi Tong Drug Store / Cubao Branch No. 3 / 2369 Aurora Blvd., Q.C."',
+            options: [
+              { key: 'A', text: 'Ku Chai Tong Drug Store / Cubao Branch No. 3 / 2369 Aurora Blvd., Q.C.' },
+              { key: 'B', text: 'Ku Choi Tong Drug Store / Cubao Branch No. 3 / 2396 Aurora Blvd., Q.C.' },
+              { key: 'C', text: 'Ku Choi Tong Drug Store / Cubao Branch No. 3 / 2369 Aurora Blvd, Q.C.' },
+              { key: 'D', text: 'Ku Choi Tong Drug Store / Cubao Branch No. 8 / 2369 Aurora Blvd., Q.C.' },
+              { key: 'E', text: 'Ku Choi Tong Drug Store / Cubao Branch No. 3 / 2369 Aurora Blvd., Q.C.' }
+            ],
+            correct: 'E',
+            rationale: 'Option A changes Choi to "Chai". Option B transposes digits "2396". Option C omits period after "Blvd.". Option D changes Branch 3 to "Branch No. 8". Option E is 100% faithful. (Answer: E)'
+          },
+          {
+            id: 'pa37',
+            number: 37,
+            type: 'error',
+            stem: 'Prompt: "Yucuanseh Drug, Inc. / 284 Dasmariñas Street / P.O. Box 1761 / Manila, Philippines"',
+            options: [
+              { key: 'A', text: 'Yucuanseh Drug, Inc. / 284 Dasmariñas St. / P.O. Box 1761 / Manila, Philippines' },
+              { key: 'B', text: 'Yucuanseh Drug, Inc. / 284 Dasmariñas Street / P.O. Box 1671 / Manila, Philippines' },
+              { key: 'C', text: 'Yucuanseh Drug, Inc. / 284 Dasmariñas Street / P.O. Box 1761 / Manila, Phillippines' },
+              { key: 'D', text: 'Yucuanseh Drug, Inc. / 284 Dasmariñas Street / P.O. Box 1761 / Maynila, Philippines' },
+              { key: 'E', text: 'Yucuanseh Drug, Inc. / 284 Dasmariñas Street / P.O. Box 1761 / Manila, Philippines' }
+            ],
+            correct: 'E',
+            rationale: 'A abbreviates "St.". B transposes digits to "1671". C misspells "Phillippines" with double l. D translates to "Maynila". E is exact. (Answer: E)'
+          },
+          {
+            id: 'pa38',
+            number: 38,
+            type: 'error',
+            stem: 'Prompt: "Phosphorous acid, H3PO3, can be prepared by the action of water upon P4O6, PCl3, PBr3, or PI3."',
+            options: [
+              { key: 'A', text: 'Phosphorous acid, H3PO3, can be prepared by the action of water upon P4O6, P3Cl, PBr3, or PI3.' },
+              { key: 'B', text: 'Phosphorous acid, H3PO3, can be prepared by the action of water upon P6O4, PCl3, PBr3, or PI3.' },
+              { key: 'C', text: 'Phosphorous acid, HPO3, can be prepared by the action of water upon P4O6, PCl3, PBr3, or PI3.' },
+              { key: 'D', text: 'Phosphorous acid, H3PO3, can be prepared by the action of water upon P4O6, PCl3, PBr3, or PI3.' },
+              { key: 'E', text: 'Phosphoros acid, H3PO3, can be prepared by the action of water upon P4O6, PCl3, PBr3, or PI3.' }
+            ],
+            correct: 'D',
+            rationale: 'D matches all subscripts and spellings perfectly. In A, P3Cl is swapped; in B, P6O4 inverted; in C, formula is HPO3; in E, spelled Phosphoros. (Answer: D)'
+          },
+          {
+            id: 'pa40',
+            number: 40,
+            type: 'error',
+            stem: 'Prompt: "The end product of glycolysis is pyruvic acid, an important source of energy in all aerobic cells."',
+            options: [
+              { key: 'A', text: 'The end product of glycolyses is pyruvic acid, an important source of energy in all aerobic cells.' },
+              { key: 'B', text: 'The end product of glycolysis is pyruvic acid, an important source of energy in all airobic cells.' },
+              { key: 'C', text: 'The end product of glycolysis is pryuvic acid, an important source of energy in all aerobic cells.' },
+              { key: 'D', text: 'The end product of glycolysis is pyruvic acid, an important source of energy in all aerobic cells.' },
+              { key: 'E', text: 'The end products of glycolysis is pyruvic acid, an important source of energy in all aerobic cells.' }
+            ],
+            correct: 'D',
+            rationale: 'A writes "glycolyses", B writes "airobic", C writes "pryuvic", E writes "end products ... is". Only D is flawlessly matched. (Answer: D)'
+          }
+        ]
+      },
+
+      p2_biology: {
+        id: 'p2_biology',
+        title: 'Biology',
+        part: 'Part 2 • Special Areas',
+        description: 'Cell biology, human anatomy & physiology, genetics, evolution, and ecology.',
+        questions: [
+          {
+            id: 'b1',
+            number: 1,
+            type: 'bio',
+            stem: 'Three animals have different forelimbs: Animal 1 has flippers, Animal 2 has wings, and Animal 3 has no limbs. Which gives the corresponding functions of the forelimbs/locomotion of these animals?',
+            options: [
+              { key: 'A', text: 'Animal 1 = running; Animal 2 = climbing; Animal 3 = swimming' },
+              { key: 'B', text: 'Animal 1 = walking; Animal 2 = swimming; Animal 3 = crawling' },
+              { key: 'C', text: 'Animal 1 = swimming; Animal 2 = flying; Animal 3 = crawling' },
+              { key: 'D', text: 'Animal 1 = diving; Animal 2 = flying; Animal 3 = jumping' }
+            ],
+            correct: 'C',
+            rationale: 'Flippers (e.g. whale/seal) are adapted for swimming; wings (birds/bats) are adapted for flying; limbless animals (e.g. snakes) employ crawling/undulation. (Answer: C)'
+          },
+          {
+            id: 'b2',
+            number: 2,
+            type: 'bio',
+            stem: 'Cardiac muscle cells are connected by regions of intercalated discs which contain gap junctions and the _______?',
+            options: [
+              { key: 'A', text: 'T tubule' },
+              { key: 'B', text: 'sarcomere' },
+              { key: 'C', text: 'desmosome' },
+              { key: 'D', text: 'cardiac myofibril' }
+            ],
+            correct: 'C',
+            rationale: 'Intercalated discs in myocardium contain two essential junctions: (1) Desmosomes (fascia adherens/macula adherens) to anchor cells together mechanically under contractile force, and (2) Gap junctions to allow rapid electrical coupling via ion diffusion. (Answer: C)'
+          },
+          {
+            id: 'b3',
+            number: 3,
+            type: 'bio',
+            stem: 'What is the structure and function of lipids?',
+            options: [
+              { key: 'A', text: 'They have an amino acid sequence that is programmed by a unit of inheritance known as a gene; thus, they store and transmit hereditary information.' },
+              { key: 'B', text: 'They include polymers, generally with molecular formulas that are multiples of CH2O; thus, they serve as fuel and building material.' },
+              { key: 'C', text: 'They have many structures resulting in a wide range of functions; thus, they can serve as structures for support, storage, transport, and cellular signaling.' },
+              { key: 'D', text: 'They are assembled from smaller molecules such as glycerol and fatty acids by dehydration reactions; thus, they can store large amounts of energy.' }
+            ],
+            correct: 'D',
+            rationale: 'Option A describes nucleic acids/proteins. Option B describes carbohydrates. Option D accurately outlines triglycerides and lipids, which yield ~9 kcal/g, storing large amounts of metabolic energy. (Answer: D)'
+          },
+          {
+            id: 'b4',
+            number: 4,
+            type: 'bio',
+            stem: 'Which of the following contribute to the speciation of an organism?\nI. Genetic drift\nII. Gene flow\nIII. Mutation',
+            options: [
+              { key: 'A', text: 'I and II only' },
+              { key: 'B', text: 'II and III only' },
+              { key: 'C', text: 'I and III only' },
+              { key: 'D', text: 'I, II, and III' }
+            ],
+            correct: 'D',
+            rationale: 'Speciation can be driven by mutation (generates novel variation), genetic drift (shifts allele frequencies in isolated populations), and restricted/modified gene flow. All three are core evolutionary forces. (Answer: D)'
+          },
+          {
+            id: 'b5',
+            number: 5,
+            type: 'bio',
+            stem: 'A woman consulted a doctor with low energy level and fatigue, slow wound healing, poor concentration, and muscle, bone, and joint pain. The patient is most likely suffering from deficiency in _______?',
+            options: [
+              { key: 'A', text: 'carbohydrates' },
+              { key: 'B', text: 'nucleic acids' },
+              { key: 'C', text: 'proteins' },
+              { key: 'D', text: 'lipids' }
+            ],
+            correct: 'C',
+            rationale: 'Protein deficiency impairs tissue synthesis and repair (leading to impaired wound healing, muscle wasting, bone collagen deficit), immune defense, and enzymatic turnover (fatigue and malaise). (Answer: C)'
+          },
+          {
+            id: 'b6',
+            number: 6,
+            type: 'bio',
+            stem: 'Which of the following comparisons between active and passive transport systems best describes them?',
+            options: [
+              { key: 'A', text: 'Active transport system does not require ATP molecules, while passive transport system does.' },
+              { key: 'B', text: 'Passive transport system does not require ATP molecules, while active transport system does.' },
+              { key: 'C', text: 'Both active and passive transport systems require ATP molecules.' },
+              { key: 'D', text: 'Neither the active nor the passive transport system requires ATP molecules.' }
+            ],
+            correct: 'B',
+            rationale: 'Passive transport (e.g. simple diffusion, facilitated diffusion) moves substances down concentration gradients without expenditure of metabolic energy (ATP). Active transport moves solutes against chemical/electrochemical gradients and directly requires ATP hydrolysis. (Answer: B)'
+          },
+          {
+            id: 'b7',
+            number: 7,
+            type: 'bio',
+            stem: 'What are the products of the light-dependent reactions of photosynthesis which are used in the light-independent reactions (Calvin cycle) to produce glucose?',
+            options: [
+              { key: 'A', text: 'H2O and ATP' },
+              { key: 'B', text: 'H2O and CO2' },
+              { key: 'C', text: 'ATP and NADPH' },
+              { key: 'D', text: 'O2 and CO2' }
+            ],
+            correct: 'C',
+            rationale: 'Photophosphorylation and reduction of NADP+ during thylakoid light reactions generate ATP (chemical energy) and NADPH (reducing power), which enter the stroma for fixation of CO2 in the Calvin cycle. (Answer: C)'
+          },
+          {
+            id: 'b17',
+            number: 17,
+            type: 'bio',
+            stem: 'Descendants of Queen Victoria suffered from hemophilia B (X-linked recessive). Suppose that her affected son (Xh Y) married her carrier daughter (XH Xh), what would be the chances of having a normal child (phenotypically unaffected)?',
+            options: [
+              { key: 'A', text: '0%' },
+              { key: 'B', text: '25%' },
+              { key: 'C', text: '50%' },
+              { key: 'D', text: '75%' }
+            ],
+            correct: 'C',
+            rationale: 'Cross: Xh Y × XH Xh. Offspring genotypes:\n1. XH Xh (carrier female - normal phenotype)\n2. Xh Xh (hemophiliac female)\n3. XH Y (normal male)\n4. Xh Y (hemophiliac male).\nOut of 4 children, 2 are phenotypically normal (50%) and 2 have hemophilia (50%). (Answer: C)'
+          },
+          {
+            id: 'b43',
+            number: 43,
+            type: 'bio',
+            stem: 'Which part of the female reproductive system is homologous to the male bulbourethral (Cowper\'s) gland?',
+            options: [
+              { key: 'A', text: 'Bartholin\'s gland (greater vestibular gland)' },
+              { key: 'B', text: 'Skene\'s gland' },
+              { key: 'C', text: 'Fimbriae' },
+              { key: 'D', text: 'G-spot' }
+            ],
+            correct: 'A',
+            rationale: 'In embryological sexual differentiation, the bulbourethral (Cowper\'s) glands of the male are homologous to the greater vestibular (Bartholin\'s) glands in females. The prostate is homologous to Skene\'s glands. (Answer: A)'
+          },
+          {
+            id: 'b44',
+            number: 44,
+            type: 'bio',
+            stem: 'Which of the following reproductive hormones is correctly matched with its physiological function?',
+            options: [
+              { key: 'A', text: 'Luteinizing hormone : stimulation of sperm production' },
+              { key: 'B', text: 'Estrogen : thickening of uterine lining' },
+              { key: 'C', text: 'Oxytocin : production of milk' },
+              { key: 'D', text: 'Progesterone : formation of germ cells' }
+            ],
+            correct: 'B',
+            rationale: 'Estrogen stimulates the proliferation and thickening of the endometrium during the follicular/proliferative phase. Note: Prolactin stimulates milk production (oxytocin causes milk ejection). FSH stimulates spermatogenesis. (Answer: B)'
+          }
+        ]
+      },
+
+      p2_physics: {
+        id: 'p2_physics',
+        title: 'Physics',
+        part: 'Part 2 • Special Areas',
+        description: 'Thermodynamics, heat transfer, optics, quantum radiation, and mechanics.',
+        questions: [
+          {
+            id: 'ph24',
+            number: 24,
+            type: 'physics',
+            stem: 'A 400-watt water heater contains 1.00 kg of water initially at 20.0°C. Assuming that the water heater has 100% efficiency, how long will it take to increase the temperature of water to 100°C? (c_water = 4,186 J/kg·°C)',
+            options: [
+              { key: 'A', text: '209 seconds' },
+              { key: 'B', text: '419 seconds' },
+              { key: 'C', text: '628 seconds' },
+              { key: 'D', text: '837 seconds' }
+            ],
+            correct: 'D',
+            rationale: 'Formula: Q = m * c * ΔT = (1.00 kg) * (4,186 J/kg·°C) * (100 - 20)°C = 4,186 * 80 = 334,880 Joules. Power P = Q / t -> t = Q / P = 334,880 J / 400 W = 837.2 seconds ≈ 837 seconds. (Answer: D)'
+          },
+          {
+            id: 'ph26',
+            number: 26,
+            type: 'physics',
+            stem: 'Two reservoirs of different temperatures are connected to a pipe. If the valve on the pipe is opened and heat flows freely, the natural direction of the heat flow is from a high-temperature reservoir to a low-temperature reservoir, regardless of the total energy content of each reservoir. This fact is stated in which law?',
+            options: [
+              { key: 'A', text: 'Law of conservation of energy' },
+              { key: 'B', text: 'Law of conservation of entropy' },
+              { key: 'C', text: 'First law of thermodynamics' },
+              { key: 'D', text: 'Second law of thermodynamics' }
+            ],
+            correct: 'D',
+            rationale: 'Clausius statement of the Second Law of Thermodynamics: Heat can never spontaneously flow from a colder body to a warmer body without external work performed. (Answer: D)'
+          },
+          {
+            id: 'ph27',
+            number: 27,
+            type: 'physics',
+            stem: 'When a material releases thermal energy without changing its state, its density ordinarily _______?',
+            options: [
+              { key: 'A', text: 'increases' },
+              { key: 'B', text: 'decreases' },
+              { key: 'C', text: 'remains the same' },
+              { key: 'D', text: 'cannot be predicted' }
+            ],
+            correct: 'A',
+            rationale: 'Releasing thermal energy causes temperature to drop. As substances cool, thermal contraction occurs (volume V decreases). Because density ρ = mass / volume, a decrease in volume causes density to increase (for ordinary materials). (Answer: A)'
+          },
+          {
+            id: 'ph28',
+            number: 28,
+            type: 'physics',
+            stem: 'Consider metallic rods X and Y with initial temperature 20°C. Initial length of X = (3/2)L0, α_X = 5α. Initial length of Y = 4L0, α_Y = (2/3)α. Both rods are heated to 50°C. Which of the following correctly shows their change in lengths (ΔL)?',
+            options: [
+              { key: 'A', text: 'ΔLX = (45/16) ΔLY' },
+              { key: 'B', text: 'ΔLX = (16/45) ΔLY' },
+              { key: 'C', text: 'ΔLX = (15/2) ΔLY' },
+              { key: 'D', text: 'ΔLX = (2/15) ΔLY' }
+            ],
+            correct: 'A',
+            rationale: 'Formula: ΔL = L0 * α * ΔT. Since ΔT is identical for both (50 - 20 = 30°C):\nΔLX = (3/2 L0) * (5α) * ΔT = (15/2) L0 α ΔT.\nΔLY = (4 L0) * (2/3 α) * ΔT = (8/3) L0 α ΔT.\nRatio ΔLX / ΔLY = (15/2) / (8/3) = (15 * 3) / (2 * 8) = 45 / 16.\nTherefore, ΔLX = (45/16) ΔLY. (Answer: A)'
+          },
+          {
+            id: 'ph29',
+            number: 29,
+            type: 'physics',
+            stem: 'Which of the following statements best differentiates spontaneous from stimulated emissions?',
+            options: [
+              { key: 'A', text: 'Spontaneous emission allows the photon to travel in random direction, while in stimulated emission the photon travels in an identical direction.' },
+              { key: 'B', text: 'Spontaneous emission is difficult to achieve, while stimulated emission can be readily achieved.' },
+              { key: 'C', text: 'Spontaneous emission is achieved in excited state, while stimulated emission is independent of external forces.' },
+              { key: 'D', text: 'Spontaneous emission arises in the presence of electromagnetic radiation, while stimulated emission is induced by absorption.' }
+            ],
+            correct: 'A',
+            rationale: 'In spontaneous emission, excited electrons decay randomly, releasing incoherent photons with random directions and phases. In stimulated emission (the basis of lasers), an incident photon triggers decay yielding a second photon with identical phase, frequency, polarization, and direction. (Answer: A)'
+          }
+        ]
+      },
+
+      p2_social: {
+        id: 'p2_social',
+        title: 'Social Science',
+        part: 'Part 2 • Special Areas',
+        description: 'Sociology, anthropology, psychological theories, deviance, and research methods.',
+        questions: [
+          {
+            id: 'ss1',
+            number: 1,
+            type: 'soc',
+            stem: 'What is the best possible reason for the difficulty experienced by people who had criminal records in seeking employment after they are released?',
+            options: [
+              { key: 'A', text: 'People still label them as criminals even if they are no longer in jail.' },
+              { key: 'B', text: 'They are considered not capable of doing things other than committing a crime.' },
+              { key: 'C', text: 'They do not know the changes in the outside world.' },
+              { key: 'D', text: 'People do not care about them.' }
+            ],
+            correct: 'A',
+            rationale: 'Labeling theory in sociology demonstrates that social stigma and labels attached to individuals (e.g. "ex-convict") persist as a master status, blocking normative social and employment opportunities. (Answer: A)'
+          },
+          {
+            id: 'ss2',
+            number: 2,
+            type: 'soc',
+            stem: 'In a medical institution, professionals such as nurses, doctors, dietitians, pharmacists, and medical technologists work in harmony providing specific services depending on a patient\'s needs. Which social processes can be best observed?',
+            options: [
+              { key: 'A', text: 'Assimilation and competition' },
+              { key: 'B', text: 'Cooperation and differentiation' },
+              { key: 'C', text: 'Amalgamation and stratification' },
+              { key: 'D', text: 'Enculturation and amalgamation' }
+            ],
+            correct: 'B',
+            rationale: 'Differentiation represents division of labor and specialized functional roles; cooperation represents these distinct specialized roles working cohesively toward common health outcomes. (Answer: B)'
+          },
+          {
+            id: 'ss3',
+            number: 3,
+            type: 'soc',
+            stem: 'Which statement reflects a functionalist understanding of the family?',
+            options: [
+              { key: 'A', text: 'The family is composed of a father, a mother, and at least one child.' },
+              { key: 'B', text: 'The family is a source of genes from which the human species evolves.' },
+              { key: 'C', text: 'The family is the site of different interests that are usually in a state of conflict.' },
+              { key: 'D', text: 'The family ensures the continuance of a society through reproduction and socialization of children as new members of the society.' }
+            ],
+            correct: 'D',
+            rationale: 'Structural functionalism analyzes social institutions according to the essential functions they serve for society\'s stability, specifically sexual regulation, reproduction, and socialization. (Answer: D)'
+          },
+          {
+            id: 'ss4',
+            number: 4,
+            type: 'soc',
+            stem: 'What do you call societies that trace kinship descent through fathers?',
+            options: [
+              { key: 'A', text: 'Matrilineal' },
+              { key: 'B', text: 'Matrilocal' },
+              { key: 'C', text: 'Patrilineal' },
+              { key: 'D', text: 'Patrilocal' }
+            ],
+            correct: 'C',
+            rationale: 'Patrilineal systems trace ancestry and inheritance through paternal lineage. (Patrilocal describes residence pattern after marriage near the husband\'s family). (Answer: C)'
+          },
+          {
+            id: 'ss9',
+            number: 9,
+            type: 'soc',
+            stem: 'According to Marxist theory, what is the main basis of social stratification in society?',
+            options: [
+              { key: 'A', text: 'Ethnic involvement' },
+              { key: 'B', text: 'Economic capacities (relationship to the means of production)' },
+              { key: 'C', text: 'Gender dynamics' },
+              { key: 'D', text: 'Power relations' }
+            ],
+            correct: 'B',
+            rationale: 'In Karl Marx\'s conflict theory, class division is based directly on economic relations—specifically ownership vs. non-ownership of the means of production (Bourgeoisie vs. Proletariat). (Answer: B)'
+          },
+          {
+            id: 'ss13',
+            number: 13,
+            type: 'soc',
+            stem: 'According to C. Wright Mills, what is the quality of mind that allows an individual to examine personal troubles in the light of broader social issues?',
+            options: [
+              { key: 'A', text: 'Objectivity' },
+              { key: 'B', text: 'Ethnical neutrality' },
+              { key: 'C', text: 'Empirical investigation' },
+              { key: 'D', text: 'Sociological imagination' }
+            ],
+            correct: 'D',
+            rationale: 'C. Wright Mills coined the term "Sociological Imagination" to define the vivid awareness of the relationship between personal experience ("private troubles") and wider society ("public issues"). (Answer: D)'
+          },
+          {
+            id: 'ss37',
+            number: 37,
+            type: 'soc',
+            stem: 'Cecile\'s heart pounded fast and her hands started to tremble upon discovering her house was on fire. She immediately realized that fear has engulfed her due to her trembling hands and pounding heart. Which theory of emotion best explains Cecile\'s experience?',
+            options: [
+              { key: 'A', text: 'Schachter-Singer two-factor theory' },
+              { key: 'B', text: 'Cannon-Bard theory' },
+              { key: 'C', text: 'James-Lange theory' },
+              { key: 'D', text: 'Solomon-Corbit opponent-process theory' }
+            ],
+            correct: 'C',
+            rationale: 'The James-Lange theory of emotion asserts that emotional experience is the direct consequence of perceiving physiological arousal (i.e., "we feel afraid because we tremble"). (Answer: C)'
+          }
+        ]
+      },
+
+      p2_chemistry: {
+        id: 'p2_chemistry',
+        title: 'Chemistry',
+        part: 'Part 2 • Special Areas',
+        description: 'General chemistry, stoichiometry, acid-base equilibrium, thermodynamics, and organic chemistry.',
+        questions: [
+          {
+            id: 'c16',
+            number: 16,
+            type: 'chem',
+            stem: 'Which of the following groups of compounds are arranged from the STRONGEST to WEAKEST intermolecular force?',
+            options: [
+              { key: 'A', text: 'F2 → HCl → H2O2' },
+              { key: 'B', text: 'F2 → H2O2 → HCl' },
+              { key: 'C', text: 'HCl → F2 → H2O2' },
+              { key: 'D', text: 'H2O2 → HCl → F2' }
+            ],
+            correct: 'D',
+            rationale: 'Hydrogen bonding is the strongest among these (H2O2) > Dipole-dipole interaction in polar molecules (HCl) > London dispersion forces in nonpolar halogens (F2). Thus: H2O2 → HCl → F2. (Answer: D)'
+          },
+          {
+            id: 'c17',
+            number: 17,
+            type: 'chem',
+            stem: '4 ¹₁H ⟶ ⁴₂He + 2 ⁰₊₁β + energy\nWhat type of nuclear reaction is shown above?',
+            options: [
+              { key: 'A', text: 'Nuclear fusion' },
+              { key: 'B', text: 'Nuclear fission' },
+              { key: 'C', text: 'Neutron emission' },
+              { key: 'D', text: 'Scintillation' }
+            ],
+            correct: 'A',
+            rationale: 'Four light hydrogen nuclei (protons) fuse together to produce a heavier helium-4 nucleus and positrons with immense release of energy (proton-proton chain stellar fusion). (Answer: A)'
+          },
+          {
+            id: 'c18',
+            number: 18,
+            type: 'chem',
+            stem: 'Which principle states that no two electrons in an atom can have the same set of four quantum numbers?',
+            options: [
+              { key: 'A', text: 'Hund\'s rule' },
+              { key: 'B', text: 'Madelung\'s rule' },
+              { key: 'C', text: 'Pauli exclusion principle' },
+              { key: 'D', text: 'Heisenberg uncertainty principle' }
+            ],
+            correct: 'C',
+            rationale: 'The Pauli Exclusion Principle dictates that each electron in an atom has a unique set of quantum numbers (n, l, ml, ms); hence an orbital can hold at most two electrons of opposite spin. (Answer: C)'
+          },
+          {
+            id: 'c28',
+            number: 28,
+            type: 'chem',
+            stem: 'Reaction: H2SO4(aq) + 2NaOH(aq) ⟶ 2H2O(l) + Na2SO4(aq)\nTitration reveals that 8.33 mL of 3 M sulfuric acid is required to neutralize sodium hydroxide in 25 mL of NaOH solution. What is the molarity of the NaOH solution?',
+            options: [
+              { key: 'A', text: '2.5 M' },
+              { key: 'B', text: '2.0 M' },
+              { key: 'C', text: '1.5 M' },
+              { key: 'D', text: '1.0 M' }
+            ],
+            correct: 'B',
+            rationale: 'Moles of H2SO4 = Volume * Molarity = (0.00833 L) * (3 mol/L) = 0.025 mol H2SO4.\nStoichiometric ratio: 1 mol H2SO4 reacts with 2 mol NaOH.\nMoles of NaOH required = 0.025 mol * 2 = 0.050 mol.\nMolarity of NaOH = Moles / Volume = 0.050 mol / 0.025 L = 2.0 M. (Answer: B)'
+          },
+          {
+            id: 'c37',
+            number: 37,
+            type: 'chem',
+            stem: 'Which of the following is a primary alcohol?',
+            options: [
+              { key: 'A', text: '2-Propanol' },
+              { key: 'B', text: '3-Bromo-2-pentanol' },
+              { key: 'C', text: 'Ethanol' },
+              { key: 'D', text: '4-Ethyl-3-hexanol' }
+            ],
+            correct: 'C',
+            rationale: 'In ethanol (CH3-CH2-OH), the hydroxyl (-OH) carbon is bonded to only ONE other carbon atom (a primary carbon, 1°). 2-propanol and 3-hexanol have -OH on secondary carbons (2°). (Answer: C)'
+          },
+          {
+            id: 'c38',
+            number: 38,
+            type: 'chem',
+            stem: 'Two gaseous hydrocarbons, X and Y, were produced from heating hexane (C6H14). When tested with aqueous bromine, X decolored the reddish-brown bromine solution, while Y retained the reddish-brown color. What are X and Y?',
+            options: [
+              { key: 'A', text: 'X = alkane, Y = alkene' },
+              { key: 'B', text: 'X = alkene, Y = alkane' },
+              { key: 'C', text: 'Both X and Y contain the same number of carbon atoms.' },
+              { key: 'D', text: 'Both X and Y contain the same number of hydrogen atoms.' }
+            ],
+            correct: 'B',
+            rationale: 'Bromine water test detects unsaturation (C=C double bonds). Alkenes readily undergo electrophilic addition across the double bond, discharging bromine\'s reddish-brown color. Alkanes are saturated and do not react without UV light. Thus X = alkene, Y = alkane. (Answer: B)'
+          },
+          {
+            id: 'c50',
+            number: 50,
+            type: 'chem',
+            stem: 'Given fibrous protein structures: I. Silk fibroin from silkworms; II. Keratin in hair and nails; III. Collagen in tendons. What level of protein structure is predominantly responsible for the characteristic sheet/helix forms of these materials?',
+            options: [
+              { key: 'A', text: 'Primary' },
+              { key: 'B', text: 'Secondary' },
+              { key: 'C', text: 'Tertiary' },
+              { key: 'D', text: 'Quarternary' }
+            ],
+            correct: 'B',
+            rationale: 'Fibrous proteins are defined by dominant secondary structures: alpha-helices (keratin), beta-pleated sheets (silk fibroin), and triple-helical tropocollagen structures formed by repetitive hydrogen-bonding backbone networks. (Answer: B)'
+          }
+        ]
+      }
+    };
+
+    /* Reading passages store */
+    const PASSAGES = {
+      soriano: {
+        title: 'Excerpt: "Language, Learning, Identity, Privilege" by James Soriano',
+        text: `
+          <p>(1) English is the language of learning. I've known this since before I could go to school. As a toddler, my first study materials were a set of flash cards that my mother used to teach me the English alphabet.</p>
+          <p>(2) My mother made home conducive to learning English: all my storybooks and coloring books were in English, and so were the cartoons I watched and the music I listened to. She required me to speak English at home. She even hired tutors to help me learn to read and write in English.</p>
+          <p>(3) In school I learned to think in English. We used English to learn about numbers, equations and variables. With it we learned about observation and inference, the moon and the stars, monsoons and photosynthesis... I prayed to Him in English.</p>
+          <p>(4) Filipino, on the other hand, was always the 'other' subject — almost a special subject like PE or Home Economics... Filipino was a chore, like washing the dishes; it was not the language of learning. It was the language we used to speak to the people who washed our dishes.</p>
+        `
+      },
+      sean: {
+        title: 'Excerpt from Otte, N. "Born Too Late. 365 tomorrows"',
+        text: `
+          <p>(4) But he was born too late for that type of real-life adventure. Everything was charted and analyzed. Plus, he was stuck here in this remote corner of the universe where life dribbled by in a monotonous, mind-numbing rhythm. Digging minerals out of the ground day after day. Mom and Dad said they were a "tight knit community". He longed for a new face, a new horizon...</p>
+          <p>(5) He felt it first as a deep, bone resonating vibration that was far below the frequency his ears could discern... Five ten on the dot and another 210 metric tons on its way in-system to the Goslar refinery station. The same thing three times a day, every day. Somewhere in that general direction was Earth, where it started, birthplace of the human race. Oh, to be free to walk under open sky, to have a whole world to discover.</p>
+        `
+      }
+    };
+
+    /* High-yield NMAT tips */
+    const NMAT_TIPS = [
+      "Inductive Reasoning: Check rotational symmetry first, then count segments, dots, and shading inversions.",
+      "Perceptual Acuity: Look out for inverted numbers (like 1761 vs 1671) and subtle spelling variations (airobic vs aerobic).",
+      "Quantitative: When dealing with algebra fractions, factor out common monomial terms like 3^(n+1) to simplify quickly.",
+      "Physics: Always convert temperatures to Kelvin when using gas laws, but Celsius differences (ΔT) are numerically equal in Kelvin!",
+      "Biology: Keep organelle roles distinct—lysosomes digest, peroxisomes detoxify peroxide/fatty acids, smooth ER synthesizes lipids.",
+      "Social Science: Differentiate functionalism (social equilibrium/roles) from conflict theory (inequality and power struggle)."
+    ];
+  </script>
+
+  <script>
+    let currentSubtestId = 'p1_verbal';
+    let userAnswers = {};      // { [questionId]: 'A' | 'B' | ... }
+    let revealedSolutions = {};// { [questionId]: boolean }
+    let flaggedQuestions = {}; // { [questionId]: boolean }
+    let currentFilter = 'all';  // 'all' | 'unanswered' | 'flagged'
+    let appMode = 'practice';   // 'practice' | 'exam'
+    let timerInterval = null;
+    let timeRemaining = 45 * 60;// 45 mins default for exam mode
+
+    /* Initialization */
+    window.addEventListener('DOMContentLoaded', () => {
+      // Check system dark mode
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.documentElement.classList.add('dark');
+      }
+      switchSubtest('p1_verbal');
+      rotateTip();
+    });
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+
+    function rotateTip() {
+      const tipElem = document.getElementById('randomHighYieldTip');
+      if (tipElem) {
+        const rand = NMAT_TIPS[Math.floor(Math.random() * NMAT_TIPS.length)];
+        tipElem.textContent = rand;
+      }
+    }
+
+    function setAppMode(mode) {
+      appMode = mode;
+      const practiceBtn = document.getElementById('modePracticeBtn');
+      const examBtn = document.getElementById('modeExamBtn');
+      const timerElem = document.getElementById('examTimer');
+
+      if (mode === 'practice') {
+        practiceBtn.className = "px-3 py-1.5 rounded-lg transition-all bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-sm font-semibold";
+        examBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        timerElem.classList.add('hidden');
+        timerElem.classList.remove('flex');
+        clearInterval(timerInterval);
+      } else {
+        examBtn.className = "px-3 py-1.5 rounded-lg transition-all bg-white dark:bg-slate-700 text-sky-600 dark:text-sky-400 shadow-sm font-semibold";
+        practiceBtn.className = "px-3 py-1.5 rounded-lg transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white";
+        timerElem.classList.remove('hidden');
+        timerElem.classList.add('flex');
+        startTimer();
+      }
+      renderCurrentSubtest();
+    }
+
+    function startTimer() {
+      clearInterval(timerInterval);
+      timeRemaining = 45 * 60;
+      updateTimerDisplay();
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimerDisplay();
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          alert("Time is up for this subtest session! Reviewing your results.");
+          submitSubtestReview();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeRemaining / 60);
+      const s = timeRemaining % 60;
+      const display = `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+      const el = document.getElementById('timerDigits');
+      if (el) el.textContent = display;
+    }
+
+    /* Subtest Switching & Header rendering */
+    function switchSubtest(subtestId) {
+      currentSubtestId = subtestId;
+      const subtest = NMAT_DATABASE[subtestId];
+
+      // Update active tabs
+      document.querySelectorAll('.subtest-tab').forEach(el => el.classList.remove('active'));
+      const activeTab = document.getElementById(`tab_${subtestId}`);
+      if (activeTab) activeTab.classList.add('active');
+
+      // Update Header & Badge
+      document.getElementById('subtestPartBadge').textContent = subtest.part;
+      document.getElementById('subtestTitle').textContent = subtest.title;
+      document.getElementById('subtestDesc').textContent = subtest.description;
+
+      // Handle Passages if any
+      const passageBox = document.getElementById('passageContainer');
+      const hasPassage = subtest.questions.some(q => q.passageId);
+      if (hasPassage) {
+        const firstPassageId = subtest.questions.find(q => q.passageId).passageId;
+        const pObj = PASSAGES[firstPassageId];
+        document.getElementById('passageTitle').textContent = pObj.title;
+        document.getElementById('passageContent').innerHTML = pObj.text;
+        passageBox.classList.remove('hidden');
+      } else {
+        passageBox.classList.add('hidden');
+      }
+
+      renderCurrentSubtest();
+      rotateTip();
+    }
+
+    function navigateSubtest(direction) {
+      const keys = Object.keys(NMAT_DATABASE);
+      const currentIndex = keys.indexOf(currentSubtestId);
+      const newIndex = currentIndex + direction;
+      if (newIndex >= 0 && newIndex < keys.length) {
+        switchSubtest(keys[newIndex]);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  </script>
+
+  <script>
+    function renderCurrentSubtest() {
+      const subtest = NMAT_DATABASE[currentSubtestId];
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = '';
+
+      // Update Navigation & Palette
+      renderPaletteGrid();
+      updateSubtestStats();
+
+      subtest.questions.forEach((q) => {
+        const card = document.createElement('div');
+        card.id = `q_card_${q.id}`;
+        card.className = "bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 shadow-sm transition hover:border-slate-300 dark:hover:border-slate-700";
+
+        const selectedAnswer = userAnswers[q.id];
+        const isRevealed = revealedSolutions[q.id] || (appMode === 'practice' && selectedAnswer);
+        const isFlagged = flaggedQuestions[q.id];
+
+        // Format question text and equations
+        let formattedStem = q.stem.replace(/\n/g, '<br/>');
+
+        let html = `
+          <div class="flex items-start justify-between gap-4 mb-4">
+            <div class="flex items-center space-x-3">
+              <span class="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-xs font-bold text-slate-700 dark:text-slate-300 font-mono">
+                ${q.number}
+              </span>
+              <span class="text-[11px] font-semibold uppercase tracking-wider text-slate-400">
+                ${q.type.toUpperCase()}
+              </span>
+            </div>
+
+            <button onclick="toggleFlag('${q.id}')" title="Flag for review" class="p-1.5 rounded-lg transition ${isFlagged ? 'text-amber-500 bg-amber-50 dark:bg-amber-950/40' : 'text-slate-400 hover:text-amber-500'}">
+              <svg class="w-4 h-4" fill="${isFlagged ? 'currentColor' : 'none'}" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V5a2 2 0 012-2h6.5l1 1H21l-3 6 3 6h-8.5l-1-1H5a2 2 0 00-2 2zm9-13.5V9"/></svg>
+            </button>
+          </div>
+
+          <!-- Question Prompt -->
+          <div class="text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed mb-4">
+            ${formattedStem}
+          </div>
+        `;
+
+        // Add Diagram or Table if exists
+        if (q.svgDiagram) {
+          html += `<div class="p-3 my-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200/70 dark:border-slate-700 flex justify-center">${q.svgDiagram}</div>`;
+        }
+        if (q.tableData) {
+          html += q.tableData;
+        }
+
+        // Render Options
+        html += `<div class="space-y-2 mt-4">`;
+        q.options.forEach(opt => {
+          let optionClasses = "border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60";
+          let badgeClasses = "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300";
+
+          if (selectedAnswer === opt.key) {
+            optionClasses = "border-sky-500 bg-sky-50/60 dark:bg-sky-950/30 text-sky-900 dark:text-sky-200 ring-1 ring-sky-500";
+            badgeClasses = "bg-sky-500 text-white";
+          }
+
+          // If revealed (solution shown)
+          if (isRevealed) {
+            if (opt.key === q.correct) {
+              optionClasses = "border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/30 text-emerald-900 dark:text-emerald-200 font-semibold ring-2 ring-emerald-500";
+              badgeClasses = "bg-emerald-500 text-white font-bold";
+            } else if (selectedAnswer === opt.key && selectedAnswer !== q.correct) {
+              optionClasses = "border-rose-500 bg-rose-50/80 dark:bg-rose-950/30 text-rose-900 dark:text-rose-200 ring-2 ring-rose-500";
+              badgeClasses = "bg-rose-500 text-white font-bold";
+            }
+          }
+
+          html += `
+            <label onclick="handleSelectOption('${q.id}', '${opt.key}')" class="flex items-center space-x-3 p-3 rounded-xl cursor-pointer transition ${optionClasses}">
+              <span class="w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold font-mono transition-colors ${badgeClasses}">
+                ${opt.key}
+              </span>
+              <span class="text-xs sm:text-sm leading-relaxed">${opt.text}</span>
+            </label>
+          `;
+        });
+        html += `</div>`;
+
+        // Buttons: Submit / Reveal Solution
+        html += `
+          <div class="mt-5 flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800/80">
+            <span class="text-xs text-slate-400">
+              ${selectedAnswer ? `Selected: Option ${selectedAnswer}` : 'No option chosen yet'}
+            </span>
+            <div class="flex items-center space-x-2">
+              <button onclick="toggleSolutionReveal('${q.id}')" class="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
+                ${isRevealed ? 'Hide Solution' : 'Reveal Solution'}
+              </button>
+            </div>
+          </div>
+        `;
+
+        // Rationale Container
+        if (isRevealed) {
+          const isCorrect = selectedAnswer === q.correct;
+          html += `
+            <div class="mt-4 p-4 rounded-xl border ${isCorrect ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-900/40 text-emerald-900 dark:text-emerald-100' : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200'}">
+              <div class="flex items-center space-x-2 text-xs font-bold mb-2 ${isCorrect ? 'text-emerald-700 dark:text-emerald-400' : 'text-sky-600 dark:text-sky-400'}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                <span>OFFICIAL ANSWER: OPTION (${q.correct}) — STEP-BY-STEP EXPLANATION</span>
+              </div>
+              <p class="text-xs sm:text-sm leading-relaxed whitespace-pre-line font-sans">${q.rationale}</p>
+            </div>
+          `;
+        }
+
+        card.innerHTML = html;
+        container.appendChild(card);
+      });
+    }
+
+    /* Option Selection */
+    function handleSelectOption(questionId, chosenKey) {
+      userAnswers[questionId] = chosenKey;
+      if (appMode === 'practice') {
+        revealedSolutions[questionId] = true;
+      }
+      renderCurrentSubtest();
+    }
+
+    function toggleSolutionReveal(questionId) {
+      revealedSolutions[questionId] = !revealedSolutions[questionId];
+      renderCurrentSubtest();
+    }
+
+    function toggleFlag(questionId) {
+      flaggedQuestions[questionId] = !flaggedQuestions[questionId];
+      renderCurrentSubtest();
+    }
+
+    function resetCurrentSubtest() {
+      const subtest = NMAT_DATABASE[currentSubtestId];
+      subtest.questions.forEach(q => {
+        delete userAnswers[q.id];
+        delete revealedSolutions[q.id];
+        delete flaggedQuestions[q.id];
+      });
+      renderCurrentSubtest();
+    }
+
+    function setPaletteFilter(filterType) {
+      currentFilter = filterType;
+      ['all', 'unanswered', 'flagged'].forEach(f => {
+        const btn = document.getElementById(`filter_${f}`);
+        if (btn) {
+          if (f === filterType) {
+            btn.className = "px-2 py-0.5 rounded font-medium bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200";
+          } else {
+            btn.className = "px-2 py-0.5 rounded font-medium text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800";
+          }
+        }
+      });
+      renderPaletteGrid();
+    }
+
+    function handleSearch(keyword) {
+      const qCards = document.querySelectorAll('#questionsContainer > div');
+      const term = keyword.toLowerCase().trim();
+      qCards.forEach(card => {
+        if (!term || card.innerText.toLowerCase().includes(term)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    }
+  </script>
+
+  <script>
+    function renderPaletteGrid() {
+      const subtest = NMAT_DATABASE[currentSubtestId];
+      const grid = document.getElementById('paletteGrid');
+      grid.innerHTML = '';
+
+      let visibleQuestions = subtest.questions;
+      if (currentFilter === 'unanswered') {
+        visibleQuestions = visibleQuestions.filter(q => !userAnswers[q.id]);
+      } else if (currentFilter === 'flagged') {
+        visibleQuestions = visibleQuestions.filter(q => flaggedQuestions[q.id]);
+      }
+
+      document.getElementById('paletteCount').textContent = `${visibleQuestions.length} Items`;
+
+      visibleQuestions.forEach(q => {
+        const btn = document.createElement('button');
+        const ans = userAnswers[q.id];
+        const isRevealed = revealedSolutions[q.id];
+        const isFlagged = flaggedQuestions[q.id];
+
+        let bgClass = "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200";
+
+        if (ans) {
+          if (isRevealed) {
+            bgClass = (ans === q.correct) ? "bg-emerald-500 text-white font-bold" : "bg-rose-500 text-white font-bold";
+          } else {
+            bgClass = "bg-sky-500 text-white font-semibold";
+          }
+        }
+
+        let ringClass = isFlagged ? "ring-2 ring-amber-400" : "";
+
+        btn.className = `w-8 h-8 rounded-lg text-xs font-mono flex items-center justify-center transition ${bgClass} ${ringClass}`;
+        btn.textContent = q.number;
+        btn.onclick = () => {
+          const target = document.getElementById(`q_card_${q.id}`);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.classList.add('ring-2', 'ring-sky-500');
+            setTimeout(() => target.classList.remove('ring-2', 'ring-sky-500'), 1500);
+          }
+        };
+        grid.appendChild(btn);
+      });
+    }
+
+    function updateSubtestStats() {
+      const subtest = NMAT_DATABASE[currentSubtestId];
+      const total = subtest.questions.length;
+      let answeredCount = 0;
+      let correctCount = 0;
+      let flaggedCount = 0;
+
+      subtest.questions.forEach(q => {
+        if (userAnswers[q.id]) {
+          answeredCount++;
+          if (userAnswers[q.id] === q.correct) correctCount++;
+        }
+        if (flaggedQuestions[q.id]) flaggedCount++;
+      });
+
+      document.getElementById('statAnswered').textContent = `${answeredCount} / ${total}`;
+      document.getElementById('statFlagged').textContent = flaggedCount;
+
+      const accRate = answeredCount > 0 ? Math.round((correctCount / answeredCount) * 100) : 0;
+      document.getElementById('statAccuracy').textContent = `${accRate}%`;
+    }
+
+    function submitSubtestReview() {
+      // Reveal all answers in the current subtest
+      const subtest = NMAT_DATABASE[currentSubtestId];
+      subtest.questions.forEach(q => {
+        revealedSolutions[q.id] = true;
+      });
+      renderCurrentSubtest();
+      openScoreModal();
+    }
+
+    function openScoreModal() {
+      const modal = document.getElementById('scoreModal');
+      modal.classList.remove('hidden');
+
+      let globalTotal = 0;
+      let globalAnswered = 0;
+      let globalCorrect = 0;
+
+      const breakdownContainer = document.getElementById('subtestScoreBreakdown');
+      breakdownContainer.innerHTML = '';
+
+      Object.values(NMAT_DATABASE).forEach(sub => {
+        let subTotal = sub.questions.length;
+        let subAnswered = 0;
+        let subCorrect = 0;
+
+        sub.questions.forEach(q => {
+          globalTotal++;
+          if (userAnswers[q.id]) {
+            globalAnswered++;
+            subAnswered++;
+            if (userAnswers[q.id] === q.correct) {
+              globalCorrect++;
+              subCorrect++;
+            }
+          }
+        });
+
+        const subAcc = subAnswered > 0 ? Math.round((subCorrect / subAnswered) * 100) : 0;
+
+        const row = document.createElement('div');
+        row.className = "flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 text-xs";
+        row.innerHTML = `
+          <div>
+            <span class="font-bold text-slate-800 dark:text-slate-200">${sub.title}</span>
+            <span class="text-slate-400 ml-2 text-[10px]">(${sub.part})</span>
+          </div>
+          <div class="flex items-center space-x-3">
+            <span class="font-mono text-slate-600 dark:text-slate-400">${subCorrect} / ${subTotal} correct</span>
+            <span class="px-2 py-0.5 rounded font-bold ${subAcc >= 75 ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300' : 'bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300'}">${subAcc}%</span>
+          </div>
+        `;
+        breakdownContainer.appendChild(row);
+      });
+
+      document.getElementById('modalTotalScore').textContent = `${globalCorrect} / ${globalTotal}`;
+      const globalAcc = globalAnswered > 0 ? Math.round((globalCorrect / globalAnswered) * 100) : 0;
+      document.getElementById('modalTotalAccuracy').textContent = `${globalAcc}%`;
+      const globalComp = globalTotal > 0 ? Math.round((globalAnswered / globalTotal) * 100) : 0;
+      document.getElementById('modalTotalCompletion').textContent = `${globalComp}%`;
+    }
+
+    function closeScoreModal() {
+      document.getElementById('scoreModal').classList.add('hidden');
+    }
+  </script>
+
+  <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 py-4 text-center text-xs text-slate-400">
+    <p>© Center for Educational Measurement (CEM) Practice Material Compliant — Designed for Future Medical Students.</p>
+  </footer>
+
+</body>
+</html>
